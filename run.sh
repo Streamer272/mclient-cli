@@ -3,7 +3,7 @@
 meson build
 cd build
 ninja
-src/out
+src/mclient-cli
 cd ..
 rm -rf build
 

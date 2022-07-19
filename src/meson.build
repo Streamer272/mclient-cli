@@ -11,4 +11,4 @@ sources = [
     'alloc.c'
 ]
 
-executable('out', sources, dependencies: [openal], c_args: ['-lm'], link_args: ['-lm'])
+executable('mclient-cli', sources, install: true, install_dir: '/usr/local/bin', dependencies: [openal], c_args: ['-lm'], link_args: ['-lm'])
