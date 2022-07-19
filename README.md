@@ -64,7 +64,7 @@ sudo chmod +x /usr/local/bin/mclient-cli
 
 Simply run `mclient-cli` to connect to a server, the output should look like this
 
-<img src="https://user-images.githubusercontent.com" />
+<img src="https://github.com/Streamer272/mclient-cli/blob/main/images/62fcfaaa-8ef4-478b-af79-2dc65105ac8a.png?raw=true" />
 
 Then you can just start typing (`.` or `-`), and every keypress will be send as an event to the server as well as play a sound depending on what you pressed.
 
