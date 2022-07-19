@@ -13,7 +13,7 @@
 int sock;
 int client_fd;
 
-void sock_init() {
+void sock_init(char *server_address) {
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         perror("socket() faile");
         exit(EXIT_FAILURE);
@@ -23,7 +23,7 @@ void sock_init() {
     address.sin_family = AF_INET;
     address.sin_port = htons(4096);
 
-    if (inet_pton(AF_INET, "127.0.0.1", &address.sin_addr) <= 0) {
+    if (inet_pton(AF_INET, server_address, &address.sin_addr) <= 0) {
         perror("inet_pton() failed");
         exit(EXIT_FAILURE);
     }

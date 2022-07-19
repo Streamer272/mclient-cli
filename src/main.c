@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <ctype.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
@@ -10,20 +11,43 @@
 #include "socket.h"
 
 pthread_t thread_id;
+bool term_initialized = false;
+bool sound_initialized = false;
+bool socket_initialized = false;
 
 void recv_loop(void *data);
 void cleanup();
 
 int main() {
-    sound_init();
-    term_init();
-    sock_init();
-
     int ret = atexit(cleanup);
     if (ret != 0) {
         perror("atexit() failed");
         return EXIT_FAILURE;
     }
+
+    term_init();
+    term_initialized = true;
+    sound_init();
+    sound_initialized = true;
+
+    printf("Enter server address: ");
+    char *server_address = alloc(sizeof(char) * 16);
+    fgets(server_address, 16, stdin);
+    if (strcmp(server_address, "localhost\n") == 0) {
+        strcpy(server_address, "127.0.0.1");
+    }
+    else {
+        for (int i = 0; i < 16; i++) {
+            char ch = server_address[i];
+            if (!isdigit(ch) && ch != '.') server_address[i] = '\0';
+        }
+    }
+
+    sock_init(server_address);
+    socket_initialized = true;
+
+    printf("Connected to %s\n", server_address);
+    free(server_address);
 
     pthread_create(&thread_id, NULL, (void *(*)(void*)) &recv_loop, NULL);
 
@@ -58,7 +82,7 @@ void recv_loop(void *data) {
 
 void cleanup() {
     pthread_cancel(thread_id);
-    term_unfuck();
-    sound_exit();
-    sock_close();
+    if (term_initialized) term_unfuck();
+    if (sound_initialized) sound_exit();
+    if (socket_initialized) sock_close();
 }

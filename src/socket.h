@@ -4,7 +4,7 @@
 extern int sock;
 extern int client_fd;
 
-void sock_init();
+void sock_init(char *server_address);
 void sock_send(char *message);
 char *sock_recv();
 void sock_close();
