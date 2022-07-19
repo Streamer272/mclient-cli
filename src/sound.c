@@ -11,8 +11,6 @@
 ALCdevice *openal_output_device;
 ALCcontext *openal_output_context;
 
-
-
 int check_error(const char *given_label) {
     ALenum al_error;
     al_error = alGetError();
@@ -25,7 +23,7 @@ int check_error(const char *given_label) {
     return 0;
 }
 
-void init_al() {
+void sound_init() {
     const char *defname = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
 
     openal_output_device = alcOpenDevice(defname);
@@ -33,14 +31,14 @@ void init_al() {
     alcMakeContextCurrent(openal_output_context);
 }
 
-void exit_al() {
+void sound_exit() {
     alcMakeContextCurrent(NULL);
     alGetError();
     alcDestroyContext(openal_output_context);
     alcCloseDevice(openal_output_device);
 }
 
-void play(float seconds) {
+void sound_play(float seconds) {
     ALuint internal_buffer;
     ALuint streaming_source;
 
